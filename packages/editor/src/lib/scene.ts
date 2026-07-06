@@ -259,9 +259,15 @@ function getRestoredSelectionForScene(
 export function syncEditorSelectionFromCurrentScene() {
   const sceneNodes = useScene.getState().nodes as Record<string, any>
   const sceneRootIds = useScene.getState().rootNodeIds
-  const siteNode = sceneRootIds[0] ? sceneNodes[sceneRootIds[0]] : null
+  const rootNode = sceneRootIds[0] ? sceneNodes[sceneRootIds[0]] : null
+  // Graphs may be rooted at a site wrapper or directly at a building
+  // (e.g. exported apartment scenes) — support both.
+  const siteNode = rootNode?.type === 'building' ? null : rootNode
   const resolve = (child: any) => (typeof child === 'string' ? sceneNodes[child] : child)
-  const firstBuilding = siteNode?.children?.map(resolve).find((n: any) => n?.type === 'building')
+  const firstBuilding =
+    rootNode?.type === 'building'
+      ? rootNode
+      : siteNode?.children?.map(resolve).find((n: any) => n?.type === 'building')
   const firstLevel = firstBuilding?.children?.map(resolve).find((n: any) => n?.type === 'level')
   const restoredEditorUiState = normalizePersistedEditorUiState(useEditor.getState())
   const shouldRestoreEditorUiState = hasCustomPersistedEditorUiState(restoredEditorUiState)
@@ -301,7 +307,9 @@ export function syncEditorSelectionFromCurrentScene() {
             ? (selectionDrivenEditorUiState ?? restoredEditorUiState)
             : restoredEditorUiState,
         )
-      } else if (restoredEditorUiState.phase === 'site') {
+      } else if (restoredEditorUiState.phase === 'site' && siteNode) {
+        // Building-rooted graphs have no site phase — fall through to
+        // selecting the building instead of an empty site view.
         useViewer.getState().resetSelection()
         useEditor.setState(restoredEditorUiState)
       } else {

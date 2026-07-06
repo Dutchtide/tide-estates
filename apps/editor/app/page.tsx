@@ -1,15 +1,18 @@
 'use client'
 
-import { Editor, ItemsPanel } from '@pascal-app/editor'
+import { Editor, ItemsPanel, type SceneGraph } from '@pascal-app/editor'
 import { Hammer, Layers, Package, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { BuildTab } from '@/components/build-tab'
+import { LockedApartment } from '@/components/locked-apartment'
 import { TideNav } from '@/components/tide-nav'
 import {
   CommunityViewerToolbarLeft,
   CommunityViewerToolbarRight,
 } from '@/components/viewer-toolbar'
+import { useApartment } from '@/store/use-apartment'
 
 // The open-source editor only ships the built-in catalog (no uploaded items),
 // so the Library/Community/Mine source chips and tag filters add nothing —
@@ -87,29 +90,64 @@ const SIDEBAR_TABS = [
 
 const PROJECT_ID = 'local-editor'
 
+// The unlocked apartment is the same scene the locked diorama shows —
+// Phase 4 swaps this for the apartment NFT's own graph.
+async function loadApartmentScene(): Promise<SceneGraph> {
+  const response = await fetch('/demos/demo_1.json')
+  return (await response.json()) as SceneGraph
+}
+
 export default function Home() {
+  const status = useApartment((state) => state.status)
+  const relock = useApartment((state) => state.relock)
+  // Zustand's persist rehydrates after mount; render nothing model-specific
+  // until then so the server and client trees match.
+  const [hydrated, setHydrated] = useState(false)
+  useEffect(() => setHydrated(true), [])
+
+  if (!hydrated) {
+    return (
+      <div className="flex h-screen w-screen flex-col">
+        <TideNav />
+        <div className="flex-1" />
+      </div>
+    )
+  }
+
+  if (status === 'locked') {
+    return (
+      <div className="flex h-screen w-screen flex-col">
+        <TideNav />
+        <LockedApartment />
+      </div>
+    )
+  }
+
   return (
     <div className="flex h-screen w-screen flex-col">
       <TideNav />
       <div className="relative flex-1 overflow-hidden">
-        {PROJECT_ID === 'local-editor' && (
-          <div className="pointer-events-none absolute top-3 left-1/2 z-40 -translate-x-1/2">
-            <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-border/60 bg-background/90 px-4 py-1.5 text-xs shadow-sm backdrop-blur">
-              <span className="text-muted-foreground">Local editor — scenes are not saved.</span>
-              <Link className="font-medium text-foreground hover:underline" href="/scenes">
-                Open recent scenes
-              </Link>
-              <span aria-hidden className="text-muted-foreground">
-                ·
-              </span>
-              <Link className="font-medium text-foreground hover:underline" href="/scenes">
-                Create new
-              </Link>
-            </div>
+        <div className="pointer-events-none absolute top-3 left-1/2 z-40 -translate-x-1/2">
+          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-border/60 bg-background/90 px-4 py-1.5 text-xs shadow-sm backdrop-blur">
+            <span className="text-muted-foreground">Local editor — scenes are not saved.</span>
+            <Link className="font-medium text-foreground hover:underline" href="/scenes">
+              Open recent scenes
+            </Link>
+            <span aria-hidden className="text-muted-foreground">
+              ·
+            </span>
+            <button
+              className="font-medium text-foreground hover:underline"
+              onClick={relock}
+              type="button"
+            >
+              Re-seal (demo)
+            </button>
           </div>
-        )}
+        </div>
         <Editor
           layoutVersion="v2"
+          onLoad={loadApartmentScene}
           projectId={PROJECT_ID}
           sidebarTabs={SIDEBAR_TABS}
           viewerToolbarLeft={<CommunityViewerToolbarLeft />}

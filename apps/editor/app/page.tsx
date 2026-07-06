@@ -1,24 +1,25 @@
 'use client'
 
-import { Editor, ItemsPanel, type SceneGraph } from '@pascal-app/editor'
+import { Editor, type SceneGraph } from '@pascal-app/editor'
 import { Hammer, Layers, Package, Settings } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BuildTab } from '@/components/build-tab'
 import { LockedApartment } from '@/components/locked-apartment'
+import { TideInventoryPanel } from '@/components/tide-inventory'
 import { TideNav } from '@/components/tide-nav'
+import { TideNftStamper } from '@/components/tide-nft-stamper'
 import {
   CommunityViewerToolbarLeft,
   CommunityViewerToolbarRight,
 } from '@/components/viewer-toolbar'
 import { useApartment } from '@/store/use-apartment'
 
-// The open-source editor only ships the built-in catalog (no uploaded items),
-// so the Library/Community/Mine source chips and tag filters add nothing —
-// drop them and keep the panel to plain categories.
+// Tide Estates: the Items tab shows the user's NFT inventory instead of the
+// raw catalog — placement is gated on ownership.
 function EditorItemsPanel() {
-  return <ItemsPanel showSourceFilter={false} showTagFilters={false} />
+  return <TideInventoryPanel />
 }
 
 const SIDEBAR_TABS = [
@@ -145,6 +146,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <TideNftStamper />
         <Editor
           layoutVersion="v2"
           onLoad={loadApartmentScene}

@@ -11,6 +11,7 @@ import {
 import { builtinPlugin } from '@pascal-app/nodes'
 import { treesPlugin } from '@pascal-app/plugin-trees'
 import { useViewer } from '@pascal-app/viewer'
+import { useInventory } from '@/store/use-inventory'
 
 // Idempotency guards: HMR can reload this module, but `registerNode`
 // throws on duplicate kinds. Flags live in the module closure so they
@@ -63,6 +64,7 @@ function loadBuiltinsSync(): void {
       ;(globalThis as { __tideScene?: typeof useScene }).__tideScene = useScene
       ;(globalThis as { __tideRegistry?: typeof sceneRegistry }).__tideRegistry = sceneRegistry
       ;(globalThis as { __tideViewer?: typeof useViewer }).__tideViewer = useViewer
+      ;(globalThis as { __tideInventory?: typeof useInventory }).__tideInventory = useInventory
     }
   }
 }

@@ -1,14 +1,12 @@
-# Pascal Editor
+# Tide Estates
 
-A 3D building editor built with React Three Fiber and WebGPU.
+A browser-based 3D interior design world — collect, unlock and decorate NFT apartments.
+
+Built on a fork of [Pascal Editor](https://github.com/pascalorg/editor) (MIT), which provides
+the 3D room construction, furniture placement, collision detection, and undo/redo systems
+(`@pascal-app/core`, `@pascal-app/viewer`).
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![npm @pascal-app/core](https://img.shields.io/npm/v/@pascal-app/core?label=%40pascal-app%2Fcore)](https://www.npmjs.com/package/@pascal-app/core)
-[![npm @pascal-app/viewer](https://img.shields.io/npm/v/@pascal-app/viewer?label=%40pascal-app%2Fviewer)](https://www.npmjs.com/package/@pascal-app/viewer)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Server-5865F2?logo=discord&logoColor=white)](https://discord.gg/SaBRA9t2)
-[![X (Twitter)](https://img.shields.io/badge/follow-%40pascal__app-black?logo=x&logoColor=white)](https://x.com/pascal_app)
-
-https://github.com/user-attachments/assets/8b50e7cf-cebe-4579-9cf3-8786b35f7b6b
 
 
 

@@ -9,9 +9,18 @@
 // `loaded` guard inside `../lib/bootstrap` keeps the side effect
 // idempotent under HMR.
 import '../lib/bootstrap'
+import { useViewer } from '@pascal-app/viewer'
 import { type ReactNode, useEffect } from 'react'
 
 export function ClientBootstrap({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    // Tide Estates default: dark scene. Only override the stock 'studio'
+    // default so a theme the user picked in the viewer settings sticks.
+    if (useViewer.getState().sceneTheme === 'studio') {
+      useViewer.getState().setSceneTheme('night')
+    }
+  }, [])
+
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') return
     // Loaded here (not via a `<Script>` tag in <head>) to avoid React's

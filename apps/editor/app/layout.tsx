@@ -1,6 +1,7 @@
 import { Agentation } from 'agentation'
 import { GeistPixelSquare } from 'geist/font/pixel'
-import { Barlow } from 'next/font/google'
+import type { Metadata } from 'next'
+import { Inter, Playfair_Display } from 'next/font/google'
 import localFont from 'next/font/local'
 import { ClientBootstrap } from './client-bootstrap'
 import './globals.css'
@@ -14,12 +15,25 @@ const geistMono = localFont({
   variable: '--font-geist-mono',
 })
 
-const barlow = Barlow({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-barlow',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-inter',
   display: 'swap',
 })
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  weight: ['700'],
+  style: ['italic', 'normal'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+export const metadata: Metadata = {
+  title: 'Tide Estates',
+  description: 'A 3D interior design world — collect, unlock and decorate NFT apartments.',
+}
 
 export default function RootLayout({
   children,
@@ -28,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} ${barlow.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} ${inter.variable} ${playfair.variable} dark`}
       lang="en"
     >
       <head>

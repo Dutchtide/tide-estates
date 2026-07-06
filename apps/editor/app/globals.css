@@ -7,27 +7,38 @@
 
 @theme {
   --font-sans:
-    var(--font-barlow), var(--font-geist-sans), ui-sans-serif, system-ui,
+    var(--font-inter), var(--font-geist-sans), ui-sans-serif, system-ui,
     sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
   --font-mono:
     var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, monospace;
   --font-pixel:
     var(--font-geist-pixel-square), var(--font-geist-mono), ui-monospace,
     SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* legacy alias — packages/editor still uses font-barlow utilities */
   --font-barlow:
-    var(--font-barlow), var(--font-geist-sans), ui-sans-serif, system-ui,
+    var(--font-inter), var(--font-geist-sans), ui-sans-serif, system-ui,
     sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-barlow), sans-serif;
+  --color-gold: var(--tide-gold);
+  --color-ocean: var(--tide-blue);
+  --color-success: var(--tide-green);
+  --color-surf: var(--tide-surf);
+  --color-surf-2: var(--tide-surf2);
+  --color-surf-3: var(--tide-surf3);
+  --color-sub: var(--tide-sub);
+  --color-dim: var(--tide-dim);
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
   --font-mono: var(--font-geist-mono), monospace;
   --font-pixel:
     var(--font-geist-pixel-square), var(--font-geist-mono), monospace;
-  --font-barlow: var(--font-barlow), sans-serif;
+  --font-barlow: var(--font-inter), sans-serif;
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-accent: var(--sidebar-accent);
@@ -62,75 +73,92 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/*
+ * Tide Estates design system (from Figma / tide-estates_2.html prototype).
+ * Dark navy is the only theme — :root and .dark are identical on purpose.
+ */
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.998 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(0.998 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(0.998 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Tide palette (source of truth) */
+  --tide-bg: #0c1824;
+  --tide-bg2: #0f1d2b;
+  --tide-surf: #132030;
+  --tide-surf2: #172437;
+  --tide-surf3: #1c2d42;
+  --tide-gold: #f5c842;
+  --tide-blue: #4a9eff;
+  --tide-red: #e05252;
+  --tide-green: #4ade80;
+  --tide-text: #e8edf2;
+  --tide-sub: #8899aa;
+  --tide-dim: #50626f;
+
+  --background: var(--tide-bg);
+  --foreground: var(--tide-text);
+  --card: var(--tide-surf);
+  --card-foreground: var(--tide-text);
+  --popover: var(--tide-surf2);
+  --popover-foreground: var(--tide-text);
+  --primary: var(--tide-gold);
+  --primary-foreground: #0c1420;
+  --secondary: var(--tide-surf2);
+  --secondary-foreground: var(--tide-text);
+  --muted: var(--tide-surf2);
+  --muted-foreground: var(--tide-sub);
+  --accent: var(--tide-surf3);
+  --accent-foreground: var(--tide-text);
+  --destructive: var(--tide-red);
+  --border: rgba(255, 255, 255, 0.07);
+  --input: rgba(255, 255, 255, 0.13);
+  --ring: var(--tide-gold);
+  --chart-1: var(--tide-gold);
+  --chart-2: var(--tide-blue);
+  --chart-3: var(--tide-green);
+  --chart-4: var(--tide-red);
+  --chart-5: var(--tide-sub);
+  --sidebar: var(--tide-bg2);
+  --sidebar-foreground: var(--tide-text);
+  --sidebar-primary: var(--tide-gold);
+  --sidebar-primary-foreground: #0c1420;
+  --sidebar-accent: var(--tide-surf2);
+  --sidebar-accent-foreground: var(--tide-text);
+  --sidebar-border: rgba(255, 255, 255, 0.07);
+  --sidebar-ring: var(--tide-gold);
 }
 
 .dark {
-  --background: oklch(0.205 0 0); /* ~171717 */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(
-    0.235 0 0
-  ); /* slightly lighter than background (0.205) but darker than previous (0.269) */
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.235 0 0); /* matching accent */
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--tide-bg);
+  --foreground: var(--tide-text);
+  --card: var(--tide-surf);
+  --card-foreground: var(--tide-text);
+  --popover: var(--tide-surf2);
+  --popover-foreground: var(--tide-text);
+  --primary: var(--tide-gold);
+  --primary-foreground: #0c1420;
+  --secondary: var(--tide-surf2);
+  --secondary-foreground: var(--tide-text);
+  --muted: var(--tide-surf2);
+  --muted-foreground: var(--tide-sub);
+  --accent: var(--tide-surf3);
+  --accent-foreground: var(--tide-text);
+  --destructive: var(--tide-red);
+  --border: rgba(255, 255, 255, 0.07);
+  --input: rgba(255, 255, 255, 0.13);
+  --ring: var(--tide-gold);
+  --chart-1: var(--tide-gold);
+  --chart-2: var(--tide-blue);
+  --chart-3: var(--tide-green);
+  --chart-4: var(--tide-red);
+  --chart-5: var(--tide-sub);
+  --sidebar: var(--tide-bg2);
+  --sidebar-foreground: var(--tide-text);
+  --sidebar-primary: var(--tide-gold);
+  --sidebar-primary-foreground: #0c1420;
+  --sidebar-accent: var(--tide-surf2);
+  --sidebar-accent-foreground: var(--tide-text);
+  --sidebar-border: rgba(255, 255, 255, 0.07);
+  --sidebar-ring: var(--tide-gold);
 }
 
 @layer base {

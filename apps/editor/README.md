@@ -1,4 +1,4 @@
-# Pascal Editor
+# Tide Estates Editor (forked from Pascal Editor)
 
 A 3D building editor built with React Three Fiber and WebGPU.
 
